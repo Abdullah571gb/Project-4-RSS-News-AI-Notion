@@ -1,0 +1,169 @@
+{
+  "name": "Project 4",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "feedUrl": "https://feeds.bbci.co.uk/news/technology/rss.xml"
+      },
+      "type": "n8n-nodes-base.rssFeedReadTrigger",
+      "typeVersion": 1,
+      "position": [
+        112,
+        0
+      ],
+      "id": "5b7d99a2-6a8e-4252-8b89-a460c88f548b",
+      "name": "RSS Feed Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Article Title: {{$json.title}} Article Content: {{$json.contentSnippet}}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are a professional news summarizer. Summarize the article in exactly 3 bullet points. Each bullet point is maximum one sentence. Be factual. Be concise. No opinions. Return only the 3 bullet points. Nothing else."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        288,
+        0
+      ],
+      "id": "8f8c99b9-973c-4a05-bb33-56ab600a04f4",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        400,
+        112
+      ],
+      "id": "9405b823-34e6-41b0-8cb7-53f3e45e87a2",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "jmSNvrcJh5Ro8fPq",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "dataSourceId": {
+          "__rl": true,
+          "value": "3ebba6ec-322c-80a8-887d-000ba48c202b",
+          "mode": "list",
+          "cachedResultName": "Project 4 AI News Digest",
+          "cachedResultUrl": "https://app.notion.com/p/3ebba6ec322c80d3bc21cbb72aef9c06"
+        },
+        "title": "Project 4 AI News Digest",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Title|title",
+              "title": "={{ $('RSS Feed Trigger').item.json.title }}"
+            },
+            {
+              "key": "Summary|rich_text",
+              "textContent": "={{ $json.text }}"
+            },
+            {
+              "key": "URL|url",
+              "urlValue": "={{ $('RSS Feed Trigger').item.json.link }}"
+            },
+            {
+              "key": "Date|date",
+              "date": "={{ $('RSS Feed Trigger').item.json.pubDate }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 3,
+      "position": [
+        576,
+        0
+      ],
+      "id": "a533e202-8267-48b7-bf8c-ac21e8577d8b",
+      "name": "Create a database page",
+      "credentials": {
+        "notionApi": {
+          "id": "SDETQpPBgjFmP6P4",
+          "name": "Notion account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "RSS Feed Trigger": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Create a database page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "DSo1gCyMwj92y5Cy",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1,
+    "availableInMCP": false
+  },
+  "versionId": "b770f196-7385-4b3b-a8df-630c84e2513c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "721cf6432c0f21dd1d3df6b8b81cb1ad833f6cd71ef46123545371f59d776c6e"
+  },
+  "nodeGroups": [],
+  "id": "gVSzUfOAyFNsfdLP",
+  "tags": []
+}
