@@ -2,7 +2,7 @@
 
 A simpler n8n automation that checks BBC Technology news every hour, summarizes new articles using AI, and automatically saves them into a Notion database — fully hands-free once activated.
 
----
+----
 
 ## 📌 What This Project Does
 
@@ -13,7 +13,7 @@ This workflow automatically:
 
 Once activated, it runs forever with zero manual work.
 
----
+----
 
 ## ⚙️ How It Works (Workflow)
 
@@ -28,7 +28,7 @@ Notion Node → Create Database Page
 (Saves Title, Summary, URL, Date)
 
 
----
+----
 
 ## 🛠️ Tech Stack
 
@@ -39,7 +39,7 @@ Notion Node → Create Database Page
 | **Google Gemini** | AI summarization (3-bullet-point format) |
 | **Notion** | Stores structured article summaries |
 
----
+----
 
 ## 🗂️ Notion Database Setup
 
@@ -50,7 +50,7 @@ Notion Node → Create Database Page
 | URL | URL |
 | Date | Date |
 
----
+----
 
 ## 📷 Screenshots
 
@@ -60,7 +60,7 @@ Notion Node → Create Database Page
 ![Notion Output](output-notion.png)
 *Article summaries saved in the Notion database*
 
----
+----
 
 ## 🎯 What I Learned
 
@@ -69,7 +69,7 @@ Notion Node → Create Database Page
 - Writing a strict system prompt to control AI output format (exactly 3 bullet points, no opinions)
 - Mapping RSS + AI output fields into a structured Notion database
 
----
+----
 
 ## 👤 Author
 
